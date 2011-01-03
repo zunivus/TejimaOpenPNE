@@ -5,6 +5,12 @@ plugins/op*
 !plugins/opSkinBasicPlugin
 !plugins/opSkinClassicPlugin
 plugins/.*
+!plugins/.channels
+!plugins/.depdb
+!plugins/.depdblock
+!plugins/.filemap
+!plugins/.lock
+!plugins/.registry
 lib/filter/doctrine/*
 cache/*
 data/migrations/generated/*

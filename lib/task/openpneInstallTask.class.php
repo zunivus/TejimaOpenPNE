@@ -20,6 +20,10 @@ class openpneInstallTask extends sfDoctrineBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
       new sfCommandOption('redo', null, sfCommandOption::PARAMETER_NONE, 'Executes a reinstall'),
       new sfCommandOption('non-recreate-db', null, sfCommandOption::PARAMETER_NONE, 'Non recreate DB'),
+      new sfCommandOption('standalone', null, sfCommandOption::PARAMETER_NONE, 'Standalone install'),
+      new sfCommandOption('sqlite', null, sfCommandOption::PARAMETER_NONE, 'SQLite mode'),
+
+
     ));
 
     $this->briefDescription = 'Install OpenPNE';
@@ -31,8 +35,34 @@ Call it with:
 EOF;
   }
 
+  private function sqlite_execute($arguments array(), $options = array())
+  {
+    $dbms = 'sqlite';
+    $username = '';
+    $password = '';
+    $hostname = '';
+    $port = '';
+    $dbname = 'op3.sqlite';
+    $sock = '';
+    $maskedPassword = '******';
+    $dbname = realpath(dirname($dbname)).DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR.basename($dbname);
+    $this->doInstall($dbms, $username, $password, $hostname, $port, $dbname, $sock, $options);
+     $this->getFilesystem()->chmod($dbname, 0666);
+     $this->publishAssets();
+ 
+     $this->logSection('installer', 'installation is completed!');
+ 
+   }
+
+  }
   protected function execute($arguments = array(), $options = array())
   {
+    if($options['sqlite'])
+    {
+      $this->sqlite_execute($arguments,$options);
+      return;
+    }
+
     $dbms = '';
     $username = '';
     $password = '';
@@ -41,7 +71,6 @@ EOF;
     $dbname = '';
     $sock = '';
     $maskedPassword = '******';
-
     if ($options['redo'])
     {
       try
@@ -50,7 +79,7 @@ EOF;
         new sfDatabaseManager($this->configuration);
       }
       catch (Exception $e)
-      {
+      {q
         $this->logSection('installer', $e->getMessage(), null, 'ERROR');
         $options['redo'] = false;
       }
@@ -136,7 +165,10 @@ EOF;
     {
       $this->logSection('installer', 'start clean install');
     }
-    $this->installPlugins();
+    if (!$options['standalone'])
+    {
+      $this->installPlugins();
+    }
     @$this->fixPerms();
     @$this->clearCache();
     if (!$options['redo'])
