@@ -22,8 +22,6 @@ class openpneInstallTask extends sfDoctrineBaseTask
       new sfCommandOption('non-recreate-db', null, sfCommandOption::PARAMETER_NONE, 'Non recreate DB'),
       new sfCommandOption('standalone', null, sfCommandOption::PARAMETER_NONE, 'Standalone install'),
       new sfCommandOption('sqlite', null, sfCommandOption::PARAMETER_NONE, 'SQLite mode'),
-
-
     ));
 
     $this->briefDescription = 'Install OpenPNE';
@@ -35,7 +33,7 @@ Call it with:
 EOF;
   }
 
-  private function sqlite_execute($arguments array(), $options = array())
+  private function sqlite_execute($arguments = array(), $options = array())
   {
     $dbms = 'sqlite';
     $username = '';
@@ -47,13 +45,10 @@ EOF;
     $maskedPassword = '******';
     $dbname = realpath(dirname($dbname)).DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR.basename($dbname);
     $this->doInstall($dbms, $username, $password, $hostname, $port, $dbname, $sock, $options);
-     $this->getFilesystem()->chmod($dbname, 0666);
-     $this->publishAssets();
- 
-     $this->logSection('installer', 'installation is completed!');
- 
-   }
+    $this->getFilesystem()->chmod($dbname, 0666);
+    $this->publishAssets();
 
+    $this->logSection('installer', 'installation is completed!');
   }
   protected function execute($arguments = array(), $options = array())
   {
@@ -79,7 +74,7 @@ EOF;
         new sfDatabaseManager($this->configuration);
       }
       catch (Exception $e)
-      {q
+      {
         $this->logSection('installer', $e->getMessage(), null, 'ERROR');
         $options['redo'] = false;
       }
