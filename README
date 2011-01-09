@@ -24,13 +24,23 @@ OP3expressは以下のような目的で作られています。
 あとは、WEBサーバの設定を行えばOKという状態を目指しています。
 
 ◆TODO
-・OP3expressに改名してからのTP版一発目をリリース
-・SQLite対応
-・ネットワークを必要としないスタンドアローンモードの追加
-・ProjectConfigration OpenPNE.ymlを予め準備したもので動くように
+・Twitter認証の追加
+・Facebook認証の追加
+・友達を誘う機能を変更する。（取り去るorメールに依存しない仕組みに）
+・ドキュメントルートで動くようにする（/web にルートを合わせるのが難しい環境用）
+・OpenPNE.ymlを正しい値に見直す
+・symfony openpne:installを不要にする（SQLiteモードにおいて、設置するだけで動く）
+・運営者に不必要なコマンドを取り除く
+・テストケースを追加する
+・オートバックアップモードを設定する
+DONE:ネットワークを必要としないスタンドアローンモードの追加
+DONE:ProjectConfigration OpenPNE.ymlを予め準備したもので動くように
+DONE:OP3expressに改名してからのTP版一発目をリリース
+DONE:SQLite対応
 
 ◆改訂履歴
 2011/01/01 プロジェクト名を変更してスタートしなおした 
+2011/01/09 GoogleApps Mixi認証のパッケージを更新した
 
 
 
