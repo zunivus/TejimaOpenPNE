@@ -1,3 +1,2 @@
 all:
   stylesheets:    [/opAuthGoogleAppsPlugin/css/main.css]
-
